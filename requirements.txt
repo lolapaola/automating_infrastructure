@@ -1,0 +1,5 @@
+ansible==2.10.7
+meraki==1.10.0
+jmespath==0.10.0
+nitrosdk-python
+openpyxl

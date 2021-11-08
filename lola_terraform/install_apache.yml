@@ -1,0 +1,23 @@
+- become: yes
+  hosts: all
+  gather_facts: false
+  name: install apache and change hostname
+  tasks:
+    - name: change hostname
+      shell: "sudo hostnamectl set-hostname lolaTestServer"
+
+    - name: Pause for 1 minute to allow apt-get resource to finish
+      pause:
+        minutes: 1
+
+    - name: Install apache2
+      apt: name=apache2 update_cache=yes state=latest
+
+    - name: Enable mod_rewrite
+      apache2_module: name=rewrite state=present
+      notify:
+        - Restart apache2
+
+  handlers:
+    - name: Restart apache2
+      service: name=apache2 state=restarted
